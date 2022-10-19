@@ -5,7 +5,19 @@
         HomePage
       </v-card-title>
       <v-card-text>
-        <p>Pagina de HomePage</p>
+        <v-data-iterator :options="{itemsPerPage: 12}" :items="library.albums">
+          <template #default="{ items }">
+            <v-row>
+              <v-col
+                v-for="item in items"
+                :key="item.name"
+                cols="2"
+              >
+                <Album :album="item" />
+              </v-col>
+            </v-row>
+          </template>
+        </v-data-iterator>
       </v-card-text>
       <v-card-actions />
     </v-card>
@@ -14,6 +26,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import Album from '~/components/library/Album.vue'
 export default {
   name: 'HomePage',
   head () {
@@ -22,13 +35,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('library', ['loaded'])
+    ...mapGetters('library', ['loaded', 'library'])
   },
-  mounted () {
-    this.retrieveLibrary()
+  async mounted () {
+    await this.retrieveLibrary()
+    console.log(this.library.albums.map(a => a.icatid))
   },
   methods: {
     ...mapActions('library', ['retrieveLibrary'])
-  }
+  },
+  components: { Album }
 }
 </script>

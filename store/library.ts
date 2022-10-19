@@ -19,11 +19,10 @@ export const getters: GetterTree<RootState, RootState> = {
     keys.forEach((key) => {
       const { map, ...elements } = (state.libraryData as any)[key]
       if (map) {
-        console.log((state.libraryData as any)[key])
         const mapKeys = Object.keys(map)
         const elementsIds = Object.keys(elements)
         elementsIds.forEach((elId) => {
-          const obj: any = { id: elId }
+          const obj: any = { id: Number(elId) }
           for (let index = 0; index < mapKeys.length; index++) {
             const attrName = mapKeys[index]
             const tuplePosition = map[attrName]
@@ -56,6 +55,8 @@ export const actions: ActionTree<RootState, any> = {
       user_id: userId,
       token: sessionToken
     })
+
+    console.log(libRequest.data)
 
     if (libRequest.data.result) {
       commit('setLibrary', libRequest.data.library)

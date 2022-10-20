@@ -1,28 +1,25 @@
-import { GetterTree, ActionTree, MutationTree } from 'vuex'
 import { libraryClient } from '~/utils/httpClients'
 
 export const state = () => ({
   libraryData: null
 })
 
-export type RootState = ReturnType<typeof state>
-
-export const getters: GetterTree<RootState, RootState> = {
+export const getters = {
   loaded: state => state.libraryData !== null,
   library: (state) => {
-    const finalResult: { [key: string]: any[]} = {}
+    const finalResult = {}
     if (state.libraryData === null) { return finalResult }
     const keys = ['albums', 'artists', 'playlists', 'tags', 'tracks']
 
     keys.forEach((key) => { finalResult[key] = [] })
 
     keys.forEach((key) => {
-      const { map, ...elements } = (state.libraryData as any)[key]
+      const { map, ...elements } = state.libraryData[key]
       if (map) {
         const mapKeys = Object.keys(map)
         const elementsIds = Object.keys(elements)
         elementsIds.forEach((elId) => {
-          const obj: any = { id: Number(elId) }
+          const obj = { id: Number(elId) }
           for (let index = 0; index < mapKeys.length; index++) {
             const attrName = mapKeys[index]
             const tuplePosition = map[attrName]
@@ -37,11 +34,11 @@ export const getters: GetterTree<RootState, RootState> = {
   }
 }
 
-export const mutations: MutationTree<RootState> = {
+export const mutations = {
   setLibrary: (state, libraryData) => { state.libraryData = libraryData }
 }
 
-export const actions: ActionTree<RootState, any> = {
+export const actions = {
   async retrieveLibrary ({ commit, rootState }) {
     const { sessionToken, userId } = rootState.auth
 
@@ -55,8 +52,6 @@ export const actions: ActionTree<RootState, any> = {
       user_id: userId,
       token: sessionToken
     })
-
-    console.log(libRequest.data)
 
     if (libRequest.data.result) {
       commit('setLibrary', libRequest.data.library)

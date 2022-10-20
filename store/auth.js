@@ -1,26 +1,23 @@
-import { GetterTree, ActionTree, MutationTree } from 'vuex'
-import { apiClient } from '~/utils/httpClients'
+import { apiClient } from '../utils/httpClients'
 
 export const state = () => ({
-  sessionToken: 'a5aeebed-1bc4-11ed-a8bc-b49691aa2236', // null,
-  userId: '2228080' // ''
+  sessionToken: null,
+  userId: ''
 })
 
-export type RootState = ReturnType<typeof state>
-
-export const getters: GetterTree<RootState, RootState> = {
+export const getters = {
   isAuthed: state => state.sessionToken !== null
 }
 
-export const mutations: MutationTree<RootState> = {
+export const mutations = {
   setToken: (state, { token, userId }) => {
     state.sessionToken = token
     state.userId = userId
   }
 }
 
-export const actions: ActionTree<RootState, RootState> = {
-  async authUser ({ commit }, { appId, loginToken }: { loginToken: string, appId: string }) {
+export const actions = {
+  async authUser ({ commit }, { appId, loginToken }) {
     const payload = {
       client: 'Your Client',
       version: '1.0',

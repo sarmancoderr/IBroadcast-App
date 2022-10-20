@@ -1,9 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
-/**
- * @type {import('@nuxt/types').NuxtConfig}
- */
-const config = {
+export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - ibroadcastapp',
@@ -32,8 +29,8 @@ const config = {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify'
   ],
@@ -55,7 +52,7 @@ const config = {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'es'
+      lang: 'eS'
     }
   },
 
@@ -81,5 +78,3 @@ const config = {
   build: {
   }
 }
-
-export default config

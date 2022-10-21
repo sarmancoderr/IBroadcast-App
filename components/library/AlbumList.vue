@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { sortBy } from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 import Album from '~/components/library/Album.vue'
 export default {
@@ -32,13 +31,14 @@ export default {
     title: {
       type: String,
       default: 'Listado de albumes'
+    },
+    albums: {
+      type: Array,
+      default: () => ([])
     }
   },
   computed: {
-    ...mapGetters('library', ['loaded', 'library']),
-    albums () {
-      return sortBy(this.library.albums, 'name')
-    }
+    ...mapGetters('library', ['loaded', 'library'])
   },
   async mounted () {
     await this.retrieveLibrary()

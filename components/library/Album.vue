@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :to="'/library/albums/' + album.id">
     <v-img :height="heightArtwork" :src="artworkUrl" />
     <v-card-title class="body-2 pl-2">
       <div class="headerClass">
@@ -22,6 +22,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import getArtwork from '~/utils/artwork'
 export default {
   name: 'AlbumItem',
   props: {
@@ -47,7 +48,7 @@ export default {
       return this.mapToTracks(this.album.tracks)
     },
     artworkUrl () {
-      return `https://artwork.ibroadcast.com/artwork/${this.tracks[0]?.artwork_id ?? '00000'}-${this.heightArtwork}`
+      return getArtwork(this.tracks[0]?.artwork_id, this.heightArtwork)
     }
   }
 }

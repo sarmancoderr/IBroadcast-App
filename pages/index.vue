@@ -1,7 +1,9 @@
 <template>
   <v-sheet>
     <h1>Pagina inicial</h1>
-    <album-list :title="'Albumes por orden alfabético'" />
+    <div v-for="section in sections" :key="section.key" :style="{'margin-bottom': '10px'}">
+      <album-list :albums="section.list" :title="section.title" />
+    </div>
   </v-sheet>
 </template>
 
@@ -17,7 +19,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('library', ['loaded'])
+    ...mapGetters({
+      albumsOrdered: 'library/albums/albumsOrdered',
+      albumsLast: 'library/albums/lastAlbums',
+      loaded: 'library/loaded'
+    }),
+    sections () {
+      return [
+        { key: 'ALBALF', list: this.albumsOrdered, title: 'Lista de albumes ordenados' },
+        { key: 'ALBLAST', list: this.albumsLast, title: 'Ultimos albumes añadidos' }
+      ]
+    }
   },
   async mounted () {
     await this.retrieveLibrary()

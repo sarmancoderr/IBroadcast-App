@@ -25,6 +25,9 @@ export const getters = {
             const tuplePosition = map[attrName]
             obj[attrName] = elements[elId][tuplePosition]
           }
+          if (key === 'tracks') {
+            obj.uploaded_timestamp = new Date(`${obj.uploaded_on} ${obj.uploaded_time}`).getTime()
+          }
           finalResult[key].push(obj)
         })
       }

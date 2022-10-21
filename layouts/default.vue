@@ -1,7 +1,7 @@
 <template>
-  <v-app dark>
+  <v-app v-if="loaded" dark>
     <v-navigation-drawer
-      v-if="isAuthed"
+      v-if="authed"
       :clipped="clipped"
       fixed
       app
@@ -30,14 +30,14 @@
       color="primary"
       dark
     >
-      <v-app-bar-nav-icon v-if="isAuthed" @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon v-if="authed" @click.stop="drawer = !drawer" />
       <v-toolbar-title>
         {{ title }}
       </v-toolbar-title>
     </v-app-bar>
     <v-main>
       <v-container fluid>
-        <template v-if="isAuthed">
+        <template v-if="authed">
           <Nuxt />
         </template>
         <LoginForm v-else />
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import LoginForm from '~/components/auth/LoginForm.vue'
 
 export default {
@@ -63,11 +63,17 @@ export default {
               to: '/'
             } */
       ],
-      title: 'IBroadcast App'
+      title: 'IBroadcast App',
+      loaded: false
     }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthed'])
+    ...mapState('auth', ['authed'])
+  },
+  mounted () {
+    setTimeout(() => {
+      this.loaded = true
+    }, 500)
   }
 }
 </script>

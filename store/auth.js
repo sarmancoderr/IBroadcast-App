@@ -2,17 +2,18 @@ import { apiClient } from '../utils/httpClients'
 
 export const state = () => ({
   sessionToken: null,
-  userId: ''
+  userId: '',
+  authed: false
 })
 
 export const getters = {
-  isAuthed: state => state.sessionToken !== null
 }
 
 export const mutations = {
   setToken: (state, { token, userId }) => {
     state.sessionToken = token
     state.userId = userId
+    state.authed = true
   }
 }
 

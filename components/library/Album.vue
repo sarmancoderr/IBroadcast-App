@@ -1,12 +1,22 @@
 <template>
   <v-card>
     <v-img :height="heightArtwork" :src="artworkUrl" />
-    <v-card-title>
-      {{ album.name }}
+    <v-card-title class="body-2 pl-2">
+      <div class="headerClass">
+        {{ album.name }}
+      </div>
     </v-card-title>
-    <v-card-text>
+    <v-card-subtitle>
       {{ artist?.name }}
-    </v-card-text>
+    </v-card-subtitle>
+    <v-card-actions>
+      <v-btn elevation="0" color="primary">
+        Reproducir
+      </v-btn>
+      <v-btn elevation="0">
+        Mas info
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -41,5 +51,11 @@ export default {
 </script>
 
 <style>
-
+.headerClass{
+    white-space: nowrap ;
+    word-break: normal;
+    overflow: hidden ;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
 </style>

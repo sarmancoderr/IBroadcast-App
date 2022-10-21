@@ -4,7 +4,7 @@
       Página de acceso
     </v-card-title>
     <v-card-text>
-      <template v-if="isAuthed">
+      <template v-if="authed">
         Estas autenticado
       </template>
       <LoginForm v-else />
@@ -13,12 +13,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import LoginForm from '~/components/auth/LoginForm.vue'
 export default {
   components: { LoginForm },
   computed: {
-    ...mapGetters('auth', ['isAuthed'])
+    ...mapState('auth', ['authed'])
   }
 }
 </script>

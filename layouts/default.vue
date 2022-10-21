@@ -57,11 +57,11 @@ export default {
     return {
       clipped: true,
       items: [
-        /* {
-              icon: 'mdi-apps',
-              title: 'Welcome',
-              to: '/'
-            } */
+        {
+          icon: 'mdi-home',
+          title: 'Pagina inicial',
+          to: '/'
+        }
       ],
       title: 'IBroadcast App',
       loaded: false

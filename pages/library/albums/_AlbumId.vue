@@ -11,14 +11,6 @@
               <v-card-title>
                 {{ album.name }}
               </v-card-title>
-              <v-card-subtitle>
-                <span>
-                  Duracion total:
-                  <template v-if="totalDuration.hours">{{ totalDuration.hours }} horas </template>
-                  <template v-if="totalDuration.minutes">{{ totalDuration.minutes }} minutos </template>
-                  <template v-if="totalDuration.seconds"> y {{ totalDuration.seconds }} segundos </template>
-                </span>
-              </v-card-subtitle>
             </v-card>
           </v-col>
         </v-row>
@@ -38,6 +30,21 @@
             </v-list-item-content>
             <v-list-item-action>
               <span>{{ getTime(track.length) }}</span>
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item class="">
+            <v-list-item-avatar />
+            <v-list-item-content>
+              <v-list-item-title>
+                Duración total del album
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <span>
+                <template v-if="totalDuration.hours">{{ totalDuration.hours.toString().padStart(2, '0') }}:</template>
+                <template v-if="totalDuration.minutes">{{ totalDuration.minutes.toString().padStart(2, '0') }}:</template>
+                <template v-if="totalDuration.seconds">{{ totalDuration.seconds.toString().padStart(2, '0') }}</template>
+              </span>
             </v-list-item-action>
           </v-list-item>
         </v-list>

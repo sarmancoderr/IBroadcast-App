@@ -26,7 +26,7 @@ export default {
   name: 'AlbumItem',
   props: {
     album: {
-      type: () => ({}),
+      type: Object,
       required: true
     }
   },
@@ -36,12 +36,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('library', ['library']),
+    ...mapGetters({
+      library: 'library/library',
+      mapToTracks: 'library/tracks/getTracksById'
+    }),
     artist () {
       return this.library.artists.filter(a => a.id === this.album.artist_id)[0]
     },
     tracks () {
-      return this.album.tracks.map(a => this.library.tracks.filter(t => t.id === a)[0])
+      return this.mapToTracks(this.album.tracks)
     },
     artworkUrl () {
       return `https://artwork.ibroadcast.com/artwork/${this.tracks[0]?.artwork_id ?? '00000'}-${this.heightArtwork}`

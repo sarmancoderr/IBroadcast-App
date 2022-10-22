@@ -42,18 +42,9 @@ export const mutations = {
 }
 
 export const actions = {
-  async retrieveLibrary ({ commit, rootState }) {
-    const { sessionToken, userId } = rootState.auth
-
+  async retrieveLibrary ({ commit, rootState, rootGetters }) {
     const libRequest = await libraryClient.post('/', {
-      client: 'Your Client',
-      version: '1.0',
-      device_name: 'Your Device Name',
-      user_agent: 'Your User Agent String',
-      mode: 'login_token',
-      type: 'account',
-      user_id: userId,
-      token: sessionToken
+      ...rootGetters['auth/baseReqParams'](true)
     })
 
     if (libRequest.data.result) {

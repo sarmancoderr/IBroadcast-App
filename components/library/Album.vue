@@ -9,14 +9,6 @@
     <v-card-subtitle>
       {{ artist?.name }}
     </v-card-subtitle>
-    <v-card-actions>
-      <v-btn elevation="0" color="primary">
-        Reproducir
-      </v-btn>
-      <v-btn elevation="0">
-        Mas info
-      </v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 

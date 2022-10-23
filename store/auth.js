@@ -1,5 +1,15 @@
 import { apiClient } from '../utils/httpClients'
 
+/**
+// -> https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement#events
+/// properties
+currentTime -> segundo por lo que va reproduciendose
+duration -> segundos totales de la reproducion
+/// events
+durationchage -> duration property has updated
+timeupdate -> Fired when the time indicated by the currentTime property has been updated.
+*/
+
 export const state = () => ({
   sessionToken: null,
   sessionUuid: null,

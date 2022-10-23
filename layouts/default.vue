@@ -38,11 +38,30 @@
     <v-main>
       <v-container fluid>
         <template v-if="authed">
+          <audio id="audioPlayer" :style="{display: 'none'}" controls>
+            <source>
+          </audio>
+
           <Nuxt />
         </template>
         <LoginForm v-else />
       </v-container>
     </v-main>
+    <v-footer app>
+      <v-card width="100%" elevation="0" color="transparent">
+        <v-slider :min="0" :max="200" :value="20" :height="25" />
+        <v-card-title>
+          Nombre canción
+        </v-card-title>
+        <v-card-text>
+          <v-btn dark>
+            <v-icon dark right>
+              mdi-play
+            </v-icon>
+          </v-btn>
+        </v-card-text>
+      </v-card>
+    </v-footer>
   </v-app>
 </template>
 

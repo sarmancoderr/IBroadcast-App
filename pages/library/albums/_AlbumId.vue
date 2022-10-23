@@ -48,7 +48,7 @@ export default {
   components: { TrackList },
   head () {
     return {
-      title: 'Album page'
+      title: this.album?.name
     }
   },
   computed: {

@@ -1,6 +1,21 @@
 <template>
   <v-card :to="'/library/albums/' + album.id">
-    <v-img :height="heightArtwork" :src="artworkUrl" />
+    <v-hover v-slot="{hover}">
+      <v-card @click.stop.prevent="playAlbum">
+        <v-img :width="heightArtwork" :height="heightArtwork" :src="artworkUrl" />
+        <v-overlay
+          v-if="hover"
+          absolute
+          color="#036358"
+        >
+          <v-btn icon>
+            <v-icon>
+              mdi-play
+            </v-icon>
+          </v-btn>
+        </v-overlay>
+      </v-card>
+    </v-hover>
     <v-card-title class="body-2 pl-2">
       <div class="headerClass">
         {{ album.name }}
@@ -41,6 +56,11 @@ export default {
     },
     artworkUrl () {
       return getArtwork(this.tracks[0]?.artwork_id, this.heightArtwork)
+    }
+  },
+  methods: {
+    playAlbum () {
+      console.log('playing album...')
     }
   }
 }

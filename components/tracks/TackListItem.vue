@@ -1,22 +1,56 @@
 <template>
-  <v-list-item @click="playSong">
-    <v-list-item-avatar>
-      <v-avatar color="primary" size="50">
-        <span class="white--text text-h5">{{ track.track }}</span>
-      </v-avatar>
-    </v-list-item-avatar>
-    <v-list-item-content>
-      <v-list-item-title>
-        {{ track.title }}
-      </v-list-item-title>
-      <v-list-item-subtitle>
-        {{ artist.name }}
-      </v-list-item-subtitle>
-    </v-list-item-content>
-    <v-list-item-action>
-      <span>{{ getTime(track.length) }}</span>
-    </v-list-item-action>
-  </v-list-item>
+  <v-hover v-slot="{hover}">
+    <v-list-item @click="playSong">
+      <v-list-item-avatar>
+        <v-avatar v-if="!hover" color="primary" size="50">
+          <span class="white--text text-h5">{{ track.track }}</span>
+        </v-avatar>
+        <v-btn v-else color="primary" depressed icon>
+          <v-icon>
+            mdi-play
+          </v-icon>
+        </v-btn>
+      </v-list-item-avatar>
+      <v-list-item-content>
+        <v-list-item-title>
+          {{ track.title }}
+        </v-list-item-title>
+        <v-list-item-subtitle>
+          {{ artist.name }}
+        </v-list-item-subtitle>
+      </v-list-item-content>
+      <v-list-item-action>
+        <v-flex>
+          <v-chip>{{ getTime(track.length) }}</v-chip>
+          <v-menu offset-y>
+            <template #activator="{ on, attrs }">
+              <v-btn v-bind="attrs" icon v-on="on">
+                <v-icon>
+                  mdi-dots-vertical
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Primer menu
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Segundo menu
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-flex>
+      </v-list-item-action>
+    </v-list-item>
+  </v-hover>
 </template>
 
 <script>

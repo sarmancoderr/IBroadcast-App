@@ -47,7 +47,10 @@
         <LoginForm v-else />
       </v-container>
     </v-main>
-    <v-footer app>
+    <v-footer
+      style="z-index: 2000000000000000000"
+      app
+    >
       <v-card width="100%" elevation="0" color="transparent">
         <v-slider :min="0" :max="200" :value="20" :height="25" />
         <v-card-title>

@@ -45,11 +45,6 @@ export default {
       default: () => ({})
     }
   },
-  head () {
-    return {
-      title: 'Album page'
-    }
-  },
   computed: {
     ...mapGetters({
       getTracks: 'library/tracks/getTracksById',

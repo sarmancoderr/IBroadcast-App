@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot="{hover}">
-    <v-list-item @click="playSong">
+    <v-list-item :class="classTrackItem" @click="playSong">
       <v-list-item-avatar>
         <v-avatar v-if="!hover" color="primary" size="50">
           <span class="white--text text-h5">{{ track.track }}</span>
@@ -56,16 +56,6 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 
-/**
-// -> https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement#events
-/// properties
-currentTime -> segundo por lo que va reproduciendose
-duration -> segundos totales de la reproducion
-/// events
-durationchage -> duration property has updated
-timeupdate -> Fired when the time indicated by the currentTime property has been updated.
-*/
-
 export default {
   name: 'AlbumPage',
   props: {
@@ -76,8 +66,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getArtistById: 'library/artists/getArtistById'
+      getArtistById: 'library/artists/getArtistById',
+      currentSong: 'queue/currentSong'
     }),
+    classTrackItem () {
+      return this.currentSong === this.track.id ? 'blue--text lighten-3' : ''
+    },
     ...mapState('auth', ['sessionToken', 'userId']),
     artist () {
       return this.getArtistById(this.track.artist_id)
@@ -96,11 +90,8 @@ export default {
       const minutes = Math.floor(seconds / 60)
       return `${minutes.toString().padStart(2, '0')}:${(seconds - (minutes * 60)).toString().padStart(2, '0')}`
     },
-    async playSong () {
-      const audioElement = document.getElementById('audioPlayer')
-
-      audioElement.setAttribute('src', this.audioUrl)
-      await audioElement.play()
+    playSong () {
+      this.$emit('play', this.track.id)
     }
   }
 }

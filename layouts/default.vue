@@ -38,10 +38,6 @@
     <v-main>
       <v-container fluid>
         <template v-if="authed">
-          <audio id="audioPlayer" :style="{display: 'none'}" controls>
-            <source>
-          </audio>
-
           <Nuxt />
         </template>
         <LoginForm v-else />
@@ -51,19 +47,7 @@
       style="z-index: 2000000000000000000"
       app
     >
-      <v-card width="100%" elevation="0" color="transparent">
-        <v-slider :min="0" :max="200" :value="20" :height="25" />
-        <v-card-title>
-          Nombre canción
-        </v-card-title>
-        <v-card-text>
-          <v-btn dark>
-            <v-icon dark right>
-              mdi-play
-            </v-icon>
-          </v-btn>
-        </v-card-text>
-      </v-card>
+      <player />
     </v-footer>
   </v-app>
 </template>
@@ -71,10 +55,11 @@
 <script>
 import { mapState } from 'vuex'
 import LoginForm from '~/components/auth/LoginForm.vue'
+import Player from '~/components/player.vue'
 
 export default {
   name: 'DefaultLayout',
-  components: { LoginForm },
+  components: { LoginForm, Player },
   data () {
     return {
       clipped: true,

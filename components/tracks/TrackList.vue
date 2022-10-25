@@ -4,6 +4,7 @@
       v-for="track in tracks"
       :key="track.id"
       :track="track"
+      @play="(track) => $emit('play', track)"
     />
     <v-list-item class="">
       <v-list-item-avatar>

@@ -1,4 +1,4 @@
-export default function queueSocket ({ store }) {
+export default function queueSocket ({ store }, inject) {
   const socket = new WebSocket('wss://queue.ibroadcast.com/ws')
 
   socket.onopen = () => {

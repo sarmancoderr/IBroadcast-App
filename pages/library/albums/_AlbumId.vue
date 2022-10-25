@@ -31,7 +31,7 @@
         </v-row>
       </v-card-title>
       <v-card-text>
-        <track-list :album="album" />
+        <track-list :album="album" @play="playAlbum" />
       </v-card-text>
       <v-card-actions />
     </v-card>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { sortBy } from 'lodash'
 import getArtwork from '~/utils/artwork'
 import TrackList from '~/components/tracks/TrackList.vue'
@@ -70,6 +70,19 @@ export default {
     },
     artwork () {
       return getArtwork(this.tracks[0].artwork_id, 300)
+    }
+  },
+  methods: {
+    ...mapMutations({
+      playAlbumCommit: 'queue/playAlbum'
+    }),
+    playAlbum (track) {
+      const index = this.album.tracks.indexOf(track) - 1
+      this.playAlbumCommit({
+        albumId: this.album.id,
+        tracks: this.album.tracks,
+        index
+      })
     }
   }
 }

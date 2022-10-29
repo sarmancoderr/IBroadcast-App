@@ -3,6 +3,7 @@
     <v-navigation-drawer
       v-if="authed"
       :clipped="clipped"
+      style="z-index: 0"
       fixed
       app
     >
@@ -44,7 +45,9 @@
       </v-container>
     </v-main>
     <v-footer
-      style="z-index: 2000000000000000000"
+      v-show="currentSong !== undefined"
+      color="transparent"
+      style="z-index: 2000000000000000000, padding: 0px;"
       app
     >
       <player />
@@ -53,7 +56,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import LoginForm from '~/components/auth/LoginForm.vue'
 import Player from '~/components/player.vue'
 
@@ -75,7 +78,10 @@ export default {
     }
   },
   computed: {
-    ...mapState('auth', ['authed'])
+    ...mapState('auth', ['authed']),
+    ...mapGetters({
+      currentSong: 'queue/currentSong'
+    })
   },
   mounted () {
     setTimeout(() => {

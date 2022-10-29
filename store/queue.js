@@ -1,9 +1,13 @@
+/* eslint-disable camelcase */
+import getArtwork from '~/utils/artwork'
+
 export const state = () => ({
   albumPlaying: '',
   playlistPlaying: '',
   trackList: [],
   queue: [],
-  currentIndex: -2
+  currentIndex: -2,
+  playing: false
 })
 export const getters = {
   currentSong (state) {
@@ -12,7 +16,20 @@ export const getters = {
   activeSong (state, getters, rootState, rootGetters) {
     return rootGetters['library/library'].tracks.filter(t => t.id === getters.currentSong)[0]
   },
+  activeSongInfo (state, getters, rootState, rootGetters) {
+    if (!getters.currentSong) { return null }
+    const { album_id, artist_id, artwork_id, title } = getters.activeSong
+
+    return {
+      album: rootGetters['library/library'].albums.filter(album => album.id === album_id)[0],
+      artist: rootGetters['library/library'].artists.filter(artist => artist.id === artist_id)[0],
+      artwork: getArtwork(artwork_id, 300),
+      title
+    }
+  },
   activeSongUrl (state, getters, rootState) {
+    if (!getters.currentSong) { return null }
+
     const { sessionToken, userId } = rootState.auth
     const url = `https://streaming.ibroadcast.com${getters.activeSong.file}`
     // [streaming_server]/[url]?Expires=[now]&Signature=[usertoken]&file_id=[fileID]&user_id=[user ID]&platform=[your app name]&version=[yourapp version]
@@ -30,6 +47,16 @@ export const mutations = {
     } else {
       state.currentIndex += 1
     }
+  },
+  backSong (state) {
+    if (state.currentIndex <= 0) {
+      state.currentIndex = 0
+    } else {
+      state.currentIndex -= 1
+    }
+  },
+  playing (state, val) {
+    state.playing = val
   },
   playAlbum (state, { albumId, tracks, index = 0 }) {
     state.currentIndex = index

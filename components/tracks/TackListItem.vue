@@ -1,14 +1,12 @@
 <template>
-  <v-hover v-slot="{hover}">
+  <v-hover v-slot="{ hover }">
     <v-list-item :class="classTrackItem" @click="playSong">
       <v-list-item-avatar>
         <v-avatar v-if="!hover" color="primary" size="50">
           <span class="white--text text-h5">{{ track.track }}</span>
         </v-avatar>
         <v-btn v-else color="primary" depressed icon>
-          <v-icon>
-            mdi-play
-          </v-icon>
+          <v-icon> mdi-play </v-icon>
         </v-btn>
       </v-list-item-avatar>
       <v-list-item-content>
@@ -25,24 +23,18 @@
           <v-menu offset-y>
             <template #activator="{ on, attrs }">
               <v-btn v-bind="attrs" icon v-on="on">
-                <v-icon>
-                  mdi-dots-vertical
-                </v-icon>
+                <v-icon> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-list>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title>
-                    Primer menu
-                  </v-list-item-title>
+                  <v-list-item-title> Primer menu </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title>
-                    Segundo menu
-                  </v-list-item-title>
+                  <v-list-item-title> Segundo menu </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -88,7 +80,9 @@ export default {
   methods: {
     getTime (seconds) {
       const minutes = Math.floor(seconds / 60)
-      return `${minutes.toString().padStart(2, '0')}:${(seconds - (minutes * 60)).toString().padStart(2, '0')}`
+      return `${minutes.toString().padStart(2, '0')}:${(seconds - minutes * 60)
+        .toString()
+        .padStart(2, '0')}`
     },
     playSong () {
       this.$emit('play', this.track.id)

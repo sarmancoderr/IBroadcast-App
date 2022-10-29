@@ -11,8 +11,8 @@ export default function queueSocket ({ store }, inject) {
   }
 
   socket.onmessage = (msg) => {
-    console.log(msg)
-    console.log(JSON.parse(msg.data))
+    // console.log(msg)
+    // console.log(JSON.parse(msg.data))
   }
 
   socket.onclose = () => {

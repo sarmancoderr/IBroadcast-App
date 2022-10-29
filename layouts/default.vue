@@ -36,7 +36,7 @@
         {{ title }}
       </v-toolbar-title>
     </v-app-bar>
-    <v-main>
+    <v-main style="padding-bottom: 180px">
       <v-container fluid>
         <template v-if="authed">
           <Nuxt />

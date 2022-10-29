@@ -1,37 +1,61 @@
 <template>
   <v-row>
     <v-col :style="{padding: '0px'}" class="p-0" md="3" lg="2">
-      <v-card v-if="songInfo">
-        <v-card-header>
-          <div class="primary darken-1 white--text">
-            <v-toolbar-title style="justify-content: space-between; display: flex; padding: 0px 10px;">
-              {{ songInfo.title }}
-              <v-btn icon dark>
-                <v-icon>
-                  mdi-arrow-down
-                </v-icon>
-              </v-btn>
-            </v-toolbar-title>
-          </div>
-        </v-card-header>
-        <v-img v-if="songInfo" :src="songInfo.artwork" />
+      <v-card v-if="songInfo" :style="`position: fixed; bottom: 0px; left: 0px; width: ${widthAlbumCardContainer}`">
+        <template v-if="maximized">
+          <v-card-title class="primary darken-1 white--text" style="padding: 2px 10px">
+            {{ songInfo.title }}
+            <v-spacer />
+            <v-btn icon dark @click="maximized = false">
+              <v-icon>
+                mdi-chevron-down
+              </v-icon>
+            </v-btn>
+          </v-card-title>
+          <v-img v-if="songInfo" :src="songInfo.artwork" />
+        </template>
         <v-card-text style="padding: 9px 0px">
-          <v-list v-if="songInfo" dense>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-subtitle>
-                  {{ songInfo.artist.name }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-subtitle
-                  :style="styleItemSubtitle"
-                  :title="songInfo.album.name"
-                >
-                  {{ songInfo.album.name }}
-                </v-list-item-subtitle>
+          <v-list dense style="padding: 0px">
+            <v-list-item style="padding: 0px">
+              <v-hover v-slot="{hover}">
+                <v-list-item-avatar v-if="!maximized" tile style="margin-left: 10px" size="75px">
+                  <v-img :src="songInfo.artwork" />
+                  <v-overlay v-if="hover" absolute>
+                    <v-btn icon dark elevation="0" small @click="maximized = true">
+                      <v-icon>
+                        mdi-chevron-up
+                      </v-icon>
+                    </v-btn>
+                  </v-overlay>
+                </v-list-item-avatar>
+              </v-hover>
+              <v-list-item-content style="padding: 0px">
+                <v-list v-if="songInfo" dense style="padding: 9px 0px 0px 0px">
+                  <v-list-item v-if="!maximized">
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        {{ songInfo.title }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item v-if="maximized">
+                    <v-list-item-content>
+                      <v-list-item-subtitle>
+                        {{ songInfo.artist.name }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-subtitle
+                        :style="styleItemSubtitle"
+                        :title="songInfo.album.name"
+                      >
+                        {{ songInfo.album.name }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -39,7 +63,7 @@
       </v-card>
     </v-col>
     <v-col class="p-0" :style="{padding: '0px', alignSelf: 'flex-end'}">
-      <v-card :style="{marginTop: 'auto'}" elevation="0">
+      <v-card :style="`position: fixed; bottom: 0px; left: ${widthAlbumCardContainer}; right: 0px`" elevation="0">
         <v-card-text>
           <div :style="{display: 'flex', padding: '0px 10px'}">
             <span>{{ timePlayed }}</span>
@@ -105,7 +129,10 @@ export default {
   data () {
     return {
       totalSongDuration: 0,
-      currentTime: 0
+      currentTime: 0,
+      maximized: false,
+      widthAlbum: 300,
+      widthTileArtwork: 75
     }
   },
   computed: {
@@ -113,6 +140,9 @@ export default {
       audioUrl: 'queue/activeSongUrl',
       songInfo: 'queue/activeSongInfo'
     }),
+    widthAlbumCardContainer () {
+      return (this.maximized ? this.widthAlbum : this.widthAlbum + this.widthTileArtwork) + 'px'
+    },
     styleItemSubtitle () {
       return {
         '-webkit-line-clamp': 2,
@@ -200,14 +230,11 @@ export default {
        * @type {HTMLAudioElement}
        */
       const el = this.$refs.player
-      console.log(el)
       if (type === 'queue/playAlbum') {
-        console.log('setting next sonaag')
         this.nextSong()
         this.playing = true
       }
       if (type === 'queue/nextSong' || type === 'queue/backSong') {
-        console.log('setting audiourl and playing')
         el.src = this.audioUrl
         el.play()
       }

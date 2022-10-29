@@ -1,6 +1,5 @@
 <template>
   <v-sheet>
-    <h1>Pagina inicial</h1>
     <div v-for="section in sections" :key="section.key" :style="{'margin-bottom': '10px'}">
       <album-list :albums="section.list" :title="section.title" />
     </div>

@@ -1,7 +1,7 @@
 <template>
   <v-card :to="'/library/albums/' + album.id">
     <v-hover v-slot="{hover}">
-      <v-card @click.stop.prevent="playAlbum">
+      <v-card elevation="0" @click.stop.prevent="playAlbum">
         <v-img :width="heightArtwork" :height="heightArtwork" :src="artworkUrl" />
         <v-overlay
           v-if="hover"
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     playAlbum () {
-      console.log('playing album...')
+      // console.log('playing album...')
     }
   }
 }

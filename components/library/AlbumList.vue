@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card elevation="0">
     <v-card-title>
       {{ title }}
     </v-card-title>
@@ -9,7 +9,7 @@
           <v-row>
             <v-col
               v-for="item in items"
-              :key="item.name"
+              :key="item.id"
               cols="2"
             >
               <Album :album="item" />
